@@ -1,10 +1,11 @@
 # 📞 Phonebook API
 
-A simple RESTful phonebook backend built with Express, deployed on Render.
+A simple RESTful phonebook backend built with Express, deployed on Render with an integrated frontend.
 
-## 🚀 Live API
+## 🚀 Live Application
 
-👉 https://phonebook-diph.onrender.com/api/persons
+* 🌐 Frontend: https://phonebook-diph.onrender.com/
+* 🔗 API: https://phonebook-diph.onrender.com/api/persons
 
 ## ⚙️ Run Locally
 
@@ -127,6 +128,7 @@ DELETE /api/persons/:id
 
 * Node.js
 * Express
+* React.js
 
 ---
 
@@ -134,12 +136,14 @@ DELETE /api/persons/:id
 
 ```
 .
+├── dist/            # frontend build (served by backend)
 ├── index.js
 ├── package.json
 ├── package-lock.json
+├── README.md
 └── requests.rest
 ```
 
 ---
 
-🚧 Frontend will be served from the backend soon.
+✨ Full-stack app: backend + frontend served from a single deployment.
