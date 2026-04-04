@@ -1,0 +1,41 @@
+### test get all persons
+GET http://localhost:3001/api/persons
+
+
+### test info about persons
+GET http://localhost:3001/api/info
+
+
+### test get specific person :id 2
+GET http://localhost:3001/api/persons/2
+
+
+### test get unexisting person :id 20
+GET http://localhost:3001/api/persons/20
+
+
+### test delete person :id 4
+DELETE http://localhost:3001/api/persons/4
+
+
+### test delete unexisting person :id 20
+DELETE http://localhost:3001/api/persons/20
+
+
+### test post adding new person
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Lissa Marttinen",
+    "number": "040-243563"
+}
+
+
+### test post adding new person with missing name
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "number": "90-89785264"
+}
