@@ -6,16 +6,19 @@ GET http://localhost:3001/api/persons
 GET http://localhost:3001/api/info
 
 
-### test get specific person :id 2
-GET http://localhost:3001/api/persons/2
+### test get specific person :id 69d271caa1ef1ca0cffc0396
+GET http://localhost:3001/api/persons/69d271caa1ef1ca0cffc0396
 
+### test get unexisting person :id 20(error handling)
+GET http://localhost:3001/api/persons/69d271caa1ef1ca0cffc0397
 
-### test get unexisting person :id 20
+### test get unexisting person with wrong format :id 20(error handling)
 GET http://localhost:3001/api/persons/20
 
 
 ### test delete person :id 4
-DELETE http://localhost:3001/api/persons/4
+# DELETE http://localhost:3001/api/persons/4
+DELETE http://localhost:3001/api/persons/69d1fd2bfcde3b0d4ee46d38
 
 
 ### test delete unexisting person :id 20
@@ -38,4 +41,14 @@ Content-Type: application/json
 
 {
     "number": "90-89785264"
+}
+
+
+### test updating person details
+PUT http://localhost:3001/api/persons/69d4ee50f288ae656387acb3
+Content-Type: application/json
+
+{
+    "name": "Anna",
+    "number": "040-243563"
 }
