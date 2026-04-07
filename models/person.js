@@ -14,8 +14,22 @@ mongoose
   })
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+    unique: true,
+  },
+  number: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return /^\d{2,3}-\d+$/.test(v) && v.length > 8;
+      },
+      message: props => `${props.value} is invalid. Format must be XX-XXXXXX or XXX-XXXXX (at least 8 digits, numbers only, separated by a single "-").`
+    },
+    required: true,
+  },
 })
 
 personSchema.set('toJSON', {

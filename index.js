@@ -45,47 +45,35 @@ app.delete("/api/persons/:id", (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post("/api/persons",  (request, response) => {
-  const name = request.body.name
-  const number = request.body.number
-  if (!name || !number) {
-    return response.status(400).json({ error: 'name or number missing' })
-  }
-//   remider to check and handle name is uniqe later
-//   if (persons.find(person => person.name.toLowerCase() === name.toLowerCase())) {
-//     return response.status(400).json({ error: 'name must be unique' })
-//   }
+app.post("/api/persons",  (request, response, next) => {
   const person = new Person({
-    name,
-    number,
+    name: request.body.name,
+    number: request.body.number,
   })
-  person.save().then(savedPerson => {
-    console.log(`added ${savedPerson.name} number ${savedPerson.number} to phonebook`)
-    response.json(savedPerson)
-  })
+  person.save()
+    .then(savedPerson => {
+      console.log(`added ${savedPerson.name} number ${savedPerson.number} to phonebook`)
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
 app.put("/api/persons/:id", (request, response, next) => {
-  const { name, number } = request.body
-  Person.findById(request.params.id)
-    .then(person => {
-      if (!person) {
-        return response.status(404).send({ error: "person not found"})
-      }
-      person.name = name
-      person.number = number
-      return person.save().then(updatedPerson => {
-        response.json(updatedPerson)
-      })
-    })
+  Person.findByIdAndUpdate(
+    request.params.id,
+    request.body,
+    { runValidators: true, new: true })
+    .then(updatedPerson => response.json(updatedPerson))
     .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
 
-  if (error.message === "Cast Error") {
-    return (response.status(400).send({ error: "malformatted id"}))
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" })
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message })
   }
   next(error)
 }
