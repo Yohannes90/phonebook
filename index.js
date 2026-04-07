@@ -10,26 +10,26 @@ app.use(express.json())
 
 morgan.token('body', function getBody (req) {
   if (req.method !== 'POST' && req.method !== 'PUT') return ''
-  return JSON.stringify({ "name": req.body?.name, "number": req.body?.number})
+  return JSON.stringify({ 'name': req.body?.name, 'number': req.body?.number })
 })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(cors())
 
 
-app.get("/api/persons", (request, response, next) => {
+app.get('/api/persons', (_request, response, next) => {
   Person.find({})
-  .then(persons => response.json(persons))
-  .catch(error => next(error))
+    .then(persons => response.json(persons))
+    .catch(error => next(error))
 })
 
-app.get("/api/info", (request, response) => {
+app.get('/api/info', (request, response) => {
   Person.countDocuments({})
     .then(count => {
       response.send(`<p>Phonebook has info for ${count} people</p> <p>${new Date()}</p>`)
     })
 })
 
-app.get("/api/persons/:id", (request, response, next) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
       person ? response.json(person) : response.status(404).end()
@@ -37,15 +37,13 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.delete("/api/persons/:id", (request, response, next) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result =>
-        response.status(204).end()
-    )
+    .then(() => response.status(204).end())
     .catch(error => next(error))
 })
 
-app.post("/api/persons",  (request, response, next) => {
+app.post('/api/persons',  (request, response, next) => {
   const person = new Person({
     name: request.body.name,
     number: request.body.number,
@@ -58,7 +56,7 @@ app.post("/api/persons",  (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.put("/api/persons/:id", (request, response, next) => {
+app.put('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndUpdate(
     request.params.id,
     request.body,
@@ -70,9 +68,9 @@ app.put("/api/persons/:id", (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" })
-  } else if (error.name === "ValidationError") {
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
   next(error)

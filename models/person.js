@@ -6,7 +6,7 @@ mongoose.set('strictQuery',false)
 
 mongoose
   .connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -24,7 +24,7 @@ const personSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: function(v) {
-        return /^\d{2,3}-\d+$/.test(v) && v.length > 8;
+        return /^\d{2,3}-\d+$/.test(v) && v.length > 8
       },
       message: props => `${props.value} is invalid. Format must be XX-XXXXXX or XXX-XXXXX (at least 8 digits, numbers only, separated by a single "-").`
     },
